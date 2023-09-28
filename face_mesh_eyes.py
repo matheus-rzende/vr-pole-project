@@ -83,10 +83,12 @@ with mp_face_mesh.FaceMesh(
     elif right_eye.horizontal() == right_eye.inner and left_eye.horizontal() == left_eye.out:
        point[0] += 2
 
-    if right_eye.vertical() == right_eye.more_up and left_eye.vertical() == left_eye.more_down:
+    if right_eye.vertical() == right_eye.more_up:
        point[1] -= 2
-    elif right_eye.vertical() == right_eye.more_up and left_eye.vertical() == left_eye.more_down:
+       print('up')
+    elif right_eye.vertical() == right_eye.more_up:
        point[1] += 2
+       print('down')
 
     if left_eye.blink() == True and right_eye.blink() == True:
       color = (np.random.randint(255),np.random.randint(255),np.random.randint(255))
