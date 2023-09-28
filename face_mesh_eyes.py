@@ -54,12 +54,16 @@ with mp_face_mesh.FaceMesh(
     right_eye.inner = [int(face_landmarks.landmark[133].x*width),int(face_landmarks.landmark[133].y*height)]
     right_eye.up = [int(face_landmarks.landmark[159].x*width),int(face_landmarks.landmark[159].y*height)]
     right_eye.down = [int(face_landmarks.landmark[145].x*width),int(face_landmarks.landmark[145].y*height)]
+    right_eye.more_up = [int(face_landmarks.landmark[27].x*width),int(face_landmarks.landmark[27].y*height)]
+    right_eye.more_down = [int(face_landmarks.landmark[23].x*width),int(face_landmarks.landmark[23].y*height)]
     right_eye.center = [int(face_landmarks.landmark[468].x*width),int(face_landmarks.landmark[468].y*height)]
 
     left_eye.out = [int(face_landmarks.landmark[263].x*width),int(face_landmarks.landmark[263].y*height)]
     left_eye.inner = [int(face_landmarks.landmark[362].x*width),int(face_landmarks.landmark[362].y*height)]
     left_eye.up = [int(face_landmarks.landmark[386].x*width),int(face_landmarks.landmark[386].y*height)]
     left_eye.down = [int(face_landmarks.landmark[374].x*width),int(face_landmarks.landmark[374].y*height)]
+    left_eye.more_up = [int(face_landmarks.landmark[257].x*width),int(face_landmarks.landmark[257].y*height)]
+    left_eye.more_down = [int(face_landmarks.landmark[253].x*width),int(face_landmarks.landmark[253].y*height)]
     left_eye.center = [int(face_landmarks.landmark[473].x*width),int(face_landmarks.landmark[473].y*height)]
 
     cv2.circle(image, (right_eye.out[0],right_eye.out[1]), 2, (0, 0, 255), -1)
@@ -79,7 +83,10 @@ with mp_face_mesh.FaceMesh(
     elif right_eye.horizontal() == right_eye.inner and left_eye.horizontal() == left_eye.out:
        point[0] += 2
 
-    print(right_eye.vertical())
+    if right_eye.vertical() == right_eye.more_up and left_eye.vertical() == left_eye.more_down:
+       point[1] -= 2
+    elif right_eye.vertical() == right_eye.more_up and left_eye.vertical() == left_eye.more_down:
+       point[1] += 2
 
     if left_eye.blink() == True and right_eye.blink() == True:
       color = (np.random.randint(255),np.random.randint(255),np.random.randint(255))
