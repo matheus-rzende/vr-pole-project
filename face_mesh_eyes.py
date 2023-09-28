@@ -8,8 +8,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_face_mesh = mp.solutions.face_mesh
 
-# Right eye: out: 33, in: 133, up: 159, down: 145
-# Left eye: out: 263, in: 362, up: 386, down: 374
+# Edit from here #
 
 left_eye = eye()
 right_eye = eye()
@@ -17,7 +16,11 @@ right_eye = eye()
 point = [200,200]
 color = (np.random.randint(255),np.random.randint(255),np.random.randint(255))
 
-# For webcam input:
+#################################
+### Face Mesh from Media Pipe ###
+#################################
+# Don't change
+
 drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
 cap = cv2.VideoCapture(0)
 with mp_face_mesh.FaceMesh(
@@ -29,11 +32,8 @@ with mp_face_mesh.FaceMesh(
     success, image = cap.read()
     if not success:
       print("Ignoring empty camera frame.")
-      # If loading a video, use 'break' instead of 'continue'.
       continue
 
-    # To improve performance, optionally mark the image as not writeable to
-    # pass by reference.
     image.flags.writeable = False
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     results = face_mesh.process(image)
@@ -46,6 +46,9 @@ with mp_face_mesh.FaceMesh(
     if results.multi_face_landmarks:
       for face_landmarks in results.multi_face_landmarks:
             pass
+      
+  #################################
+  # Edit frome here #
         
     right_eye.out = [int(face_landmarks.landmark[33].x*width),int(face_landmarks.landmark[33].y*height)]
     right_eye.inner = [int(face_landmarks.landmark[133].x*width),int(face_landmarks.landmark[133].y*height)]
@@ -83,7 +86,8 @@ with mp_face_mesh.FaceMesh(
 
     cv2.circle(image, (point[0],point[1]), 5, color, -1)    
 
-    # Flip the image horizontally for a selfie-view display.
+    #################################
+    # Don't edit
     cv2.imshow('Face', cv2.flip(image, 1))
 
     if cv2.waitKey(5) & 0xFF == 27:
