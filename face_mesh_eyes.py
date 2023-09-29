@@ -2,9 +2,8 @@ import cv2
 import numpy as np
 import mediapipe as mp
 from eye import eye
-import os
-from PyQt5.QtCore import pyqtSignal
 import pyautogui
+import sys
 
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
@@ -105,6 +104,11 @@ with mp_face_mesh.FaceMesh(
 
     if cv2.getWindowProperty('Face', cv2.WND_PROP_VISIBLE) <1:
       break
+
+    k = cv2.waitKey(33)
+    if k==27:    
+        break
+
     
 cap.release()
 
