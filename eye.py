@@ -16,24 +16,16 @@ class eye(object):
         self.direction = None
         self.blinked = False
 
-    # Use other face features, or line between horizotal points  
+    # distance_vertical/distance_horizontal = 0.3
     def vertical(self):
-        min_distance = 10000
-        min_distance_direction = None
-        max_distance = distance(self.more_up,self.more_down)
-        for direction in [self.more_up, self.more_down]:
-            dis = distance(self.center, direction)
-            if dis < min_distance:
-                min_distance = dis
-                min_distance_direction = direction
-        if min_distance_direction == self.more_up:
-            if min_distance < 0.4*max_distance:
-                return min_distance_direction
-        elif min_distance_direction == self.more_down:
-            if min_distance < 0.47*max_distance:
-                return min_distance_direction
-        else:
-            return None
+        distance_horizontal = distance(self.out,self.inner)
+        distance_vertical = distance(self.up,self.down)
+        mean_vertical = int(np.mean([self.out[1],self.inner[1]]))
+        distance_up = distance(self.up,[self.up[0],mean_vertical])
+        if distance_up < 0.15*distance_horizontal and distance_vertical > 0.22*distance_horizontal:
+            return self.down
+        if distance_up > 0.25*distance_horizontal:
+            return self.up
         
     
     def horizontal(self):

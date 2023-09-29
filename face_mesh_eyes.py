@@ -79,18 +79,27 @@ with mp_face_mesh.FaceMesh(
     cv2.circle(image, (left_eye.center[0],left_eye.center[1]), 2, (0, 255, 0), -1) 
 
     if right_eye.horizontal() == right_eye.out and left_eye.horizontal() == left_eye.inner:
-       point[0] -= 2
+      point[0] -= 2
     elif right_eye.horizontal() == right_eye.inner and left_eye.horizontal() == left_eye.out:
-       point[0] += 2
+      point[0] += 2
 
-    if right_eye.vertical() == right_eye.more_up:
-       point[1] -= 2
-       print('up')
-    elif right_eye.vertical() == right_eye.more_up:
-       point[1] += 2
-       print('down')
+    if right_eye.vertical() == right_eye.up and left_eye.vertical() == left_eye.up:
+      point[1] -= 2
+    if right_eye.vertical() == right_eye.down and left_eye.vertical() == left_eye.down:
+      point[1] += 2
+
+    if point[0] <= 0:
+      point[0] = 0
+    if point[0] >= height:
+      point[0] = height
+    if point[1] <= 0:
+      point[1] = 0
+    if point[1] >= width:
+      point[1] = width
+
 
     if left_eye.blink() == True and right_eye.blink() == True:
+      point[1] -= 2
       color = (np.random.randint(255),np.random.randint(255),np.random.randint(255))
 
     cv2.circle(image, (point[0],point[1]), 5, color, -1)    
