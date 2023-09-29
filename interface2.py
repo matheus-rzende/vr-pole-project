@@ -4,7 +4,7 @@ import numpy as np
 import mediapipe as mp
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
 from PyQt5.QtCore import QTimer, Qt
-from PyQt5.QtGui import QPixmap, QImage, QPainter
+from PyQt5.QtGui import QPixmap, QImage, QPainter, QCursor  
 from PyQt5.QtWidgets import QPushButton
 
 # Import your eye tracking code here
@@ -111,8 +111,9 @@ class EyeTrackingInterface(QMainWindow):
 
     def move_mouse(self, x, y):
         # Move the mouse pointer to the specified coordinates
-        cursor = QtGui.QCursor()
+        cursor = QCursor()
         cursor.setPos(self.mapToGlobal(QtCore.QPoint(x, y)))
+
 
     def open_keyboard(self):
         # Implement action for the virtual keyboard
