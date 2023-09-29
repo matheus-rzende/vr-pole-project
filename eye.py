@@ -11,8 +11,6 @@ class eye(object):
         self.up = None
         self.down = None
         self.center = None
-        self.more_up = None
-        self.more_down = None
         self.direction = None
         self.blinked = False
 
