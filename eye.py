@@ -61,6 +61,9 @@ class eye(object):
 
 
 def distance(a,b):
-    return np.sqrt((b[0]-a[0])**2+(b[1]-a[1])**2)
+    try:
+        return np.sqrt((b[0]-a[0])**2+(b[1]-a[1])**2)
+    except TypeError:
+        return
 
       

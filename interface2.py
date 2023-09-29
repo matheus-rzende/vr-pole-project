@@ -56,15 +56,58 @@ class EyeTrackingInterface(QMainWindow):
     def initEyeTracking(self):
         # Initialize your eye-tracking code here
         # This should include starting the webcam feed and setting up the eye tracking process
-        pass
+
+        # Initialize MediaPipe Face Mesh for eye tracking
+        self.mp_face_mesh = mp.solutions.face_mesh
+        self.face_mesh = self.mp_face_mesh.FaceMesh(
+            max_num_faces=1,
+            refine_landmarks=True,
+            min_detection_confidence=0.5,
+            min_tracking_confidence=0.5
+        )
+
+        # Open the webcam for video capture
+        self.cap = cv2.VideoCapture(0)
+
+        # Check if the webcam opened successfully
+        if not self.cap.isOpened():
+            print("Error: Could not open the webcam.")
+            return
+
+        # Start the timer to process frames
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_gaze)
+        self.timer.start(50)  # Adjust the timer interval as needed
 
     def update_gaze(self):
         # Update the position of the mouse pointer based on eye tracking
-        # Replace this with your actual eye-tracking logic
-        # For simplicity, we'll just move the mouse based on the right eye's horizontal position
-        x = self.right_eye.horizontal()[0]
-        if x is not None:
-            self.move_mouse(x, self.height() // 2)
+        # You should replace this with your actual eye-tracking logic
+
+        # Example code to capture a frame from the webcam
+        ret, frame = self.cap.read()
+        if not ret:
+            return
+
+        # Process the frame with the MediaPipe Face Mesh
+        image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        results = self.face_mesh.process(image_rgb)
+
+        # Process the results and extract gaze coordinates
+        if results.multi_face_landmarks:
+            # Extract landmarks and calculate gaze position
+            for face_landmarks in results.multi_face_landmarks:
+                pass  # Your gaze tracking logic here
+
+        # Move the mouse pointer based on gaze position
+        gaze_x, gaze_y = self.calculate_gaze_position()  # Replace with your calculation
+        if gaze_x is not None and gaze_y is not None:
+            self.move_mouse(gaze_x, gaze_y)
+    def calculate_gaze_position(self):
+        # Calculate the gaze position based on landmarks or other methods
+        # Replace this with your actual calculation
+        gaze_x, gaze_y = None, None
+        # Your gaze calculation logic here
+        return gaze_x, gaze_y
 
     def move_mouse(self, x, y):
         # Move the mouse pointer to the specified coordinates
