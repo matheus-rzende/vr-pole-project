@@ -5,6 +5,16 @@ from eye import eye
 import pyautogui
 import sys
 
+
+def zoom_at(img, zoom=1, angle=0, coord=None):
+    
+    cy, cx = [ i/2 for i in img.shape[:-1] ] if coord is None else coord[::-1]
+    
+    rot_mat = cv2.getRotationMatrix2D((cx,cy), angle, zoom)
+    result = cv2.warpAffine(img, rot_mat, img.shape[1::-1], flags=cv2.INTER_LINEAR)
+    
+    return result
+
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_face_mesh = mp.solutions.face_mesh
@@ -43,6 +53,8 @@ with mp_face_mesh.FaceMesh(
 
     height, width, _ = image.shape
 
+    image2 = zoom_at(image, 3.5, coord=(left_eye.up[0],left_eye.up[1]))
+
     # Draw the face mesh annotations on the image.
     image.flags.writeable = True
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
@@ -65,7 +77,7 @@ with mp_face_mesh.FaceMesh(
     left_eye.down = [int(face_landmarks.landmark[374].x*width),int(face_landmarks.landmark[374].y*height)]
     left_eye.center = [int(face_landmarks.landmark[473].x*width),int(face_landmarks.landmark[473].y*height)]
 
-    step = 8
+    step = 24
 
     if right_eye.horizontal() == right_eye.out and left_eye.horizontal() == left_eye.inner:
       point[0] += step
@@ -73,9 +85,9 @@ with mp_face_mesh.FaceMesh(
       point[0] -= step
 
     if right_eye.vertical() == right_eye.up and left_eye.vertical() == left_eye.up:
-      point[1] -= step
+      point[1] -= step*2
     if right_eye.vertical() == right_eye.down and left_eye.vertical() == left_eye.down:
-      point[1] += step
+      point[1] += step*2
 
     if point[0] <= 0:
       point[0] = 0
@@ -91,13 +103,13 @@ with mp_face_mesh.FaceMesh(
       #point[1] -= step
       pyautogui.click()
 
-    cv2.circle(image, (point[0],point[1]), 5, color, -1)    
+    #cv2.circle(image, (point[0],point[1]), 5, color, -1)    
 
     pyautogui.moveTo(screen_w / width * point[0],screen_h / height * point[1])
       
     #################################
     # Don't edit
-    cv2.imshow('Face', cv2.flip(image, 1))
+    cv2.imshow('Face',cv2.flip(image2, 1))
 
     if cv2.waitKey(5) & 0xFF == 27:
       break
@@ -109,7 +121,6 @@ with mp_face_mesh.FaceMesh(
     if k==27:    
         break
 
-    
 cap.release()
 
 

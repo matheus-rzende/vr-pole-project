@@ -6,11 +6,11 @@ import time
 class eye(object):
 
     def __init__(self):
-        self.out = None
-        self.inner = None
-        self.up = None
-        self.down = None
-        self.center = None
+        self.out = [0,0]
+        self.inner = [0,0]
+        self.up = [0,0]
+        self.down = [0,0]
+        self.center = [0,0]
         self.direction = None
         self.blinked = False
 
