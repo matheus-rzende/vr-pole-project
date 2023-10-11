@@ -20,10 +20,9 @@ class eye(object):
         
     
     def horizontal(self):
-        max_distance = distance(self.out,self.inner)
         x_0 = np.mean([self.out[0],self.inner[0]])
-        e = x_0 - self.pupil[0]
-        return e, max_distance
+        e = x_0 - self.pupil[0] + 1.5
+        return e
 
 
     def blink(self): 
