@@ -16,17 +16,23 @@ screen_w, screen_h = pyautogui.size()
 lista1 = list()
 lista2 = list()
 lista3 = list()
+lista4 = list()
+lista5 = list()
 
-cum_e = 0
-previous_time = 0
-previous_e = 0
+cum_ex = 0
+cum_ey = 0
+previous_time = time.time()
+previous_ex = 0
+previous_ey = 0
 
 # Edit from here #
 
 left_eye = eye()
 right_eye = eye()
 
-point = [640/2,480/2]
+n = 1.8
+
+point = [640/2,480/2/n]
 
 #################################
 ### Face Mesh from Media Pipe ###
@@ -76,27 +82,43 @@ with mp_face_mesh.FaceMesh(
     left_eye.down = [int(face_landmarks.landmark[374].x*width),int(face_landmarks.landmark[374].y*height)]
     left_eye.pupil = [int(face_landmarks.landmark[473].x*width),int(face_landmarks.landmark[473].y*height)]
 
-    K = 0.01
-    Kp = 8
-    Kd = 0.05
-    Ki = 0
-
     t = current_time - previous_time
-    
-    #if len(lista3) <= 1:
-    #  lista3.append(point[0])
-    #else:
-    #  lista3 = lista3[1:]
-    #  lista3.append(point[0])
 
-    #avg = np.mean(lista3)*K
+    mean_x = np.mean([right_eye.horizontal(),left_eye.horizontal()]) - 0.2
+    mean_y = np.mean([right_eye.vertical(),left_eye.vertical()])
 
-    e = right_eye.horizontal() - point[0]*K
-    cum_e += e * t
-    rate_e = (e - previous_e)/t
+    Kx = 6/320
+    Kpx = 16
+    Kdx = -1
+    Kix = 0
 
-    point[0] += Kp*e + Kd*rate_e + Ki*cum_e
+    Ky = -0.01
+    Kpy = -10
+    Kdy = 0
+    Kiy = 0
 
+    point_x = (point[0]-320)*Kx
+    point_y = (point[1]-240)*Ky
+
+    e_x = mean_x - point_x
+    e_y = mean_y - point[1] * Ky
+
+    cum_ex += e_x * t
+    rate_ex = (e_x - previous_ex)/t
+    cum_ey += e_y * t
+    rate_ey = (e_y - previous_ey)/t
+
+    point[0] += Kpx*e_x + Kdx*rate_ex + Kix*cum_ex
+    point[1] += (Kpy*e_y + Kdy*rate_ey + Kiy*cum_ey)
+
+    if point_x <= -320:
+      point_x = -320
+    if point_x >= 320:
+      point_x = 320
+    if point_y <= -240:
+      point_y = -240
+    if point_y >= 240:
+      point_y = 240
     if point[0] <= 0:
       point[0] = 0
     if point[0] >= width:
@@ -106,10 +128,7 @@ with mp_face_mesh.FaceMesh(
     if point[1] >= height:
       point[1] = height
 
-
-    #cv2.circle(image, (point[0],point[1]), 5, color, -1)    
-
-    pyautogui.moveTo(screen_w / width * point[0],screen_h / height * point[1])
+    pyautogui.moveTo(screen_w / width * point[0],screen_h / height * point[1]*n)
       
     #################################
     # Don't edit
@@ -124,17 +143,9 @@ with mp_face_mesh.FaceMesh(
     k = cv2.waitKey(33)
     if k==27:    
         break
-    
-    lista1.append(right_eye.horizontal())
-    lista2.append(point[0]*K)
 
-    previous_e = e
+    previous_ex = e_x
+    previous_ey = e_y
     previous_time = current_time
     
 cap.release()
-
-x = np.linspace(0, len(lista1), num=len(lista1))
-fig, ax = plt.subplots(1,1,figsize=(20, 8))
-ax.plot(x, lista1, color='b',  linewidth=1)
-ax.plot(x, lista2, color='r',  linewidth=1)
-plt.show()

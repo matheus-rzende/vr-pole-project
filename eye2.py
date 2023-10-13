@@ -16,13 +16,15 @@ class eye(object):
 
     # distance_vertical/distance_horizontal = 0.3
     def vertical(self):
-        pass
+        y_0 = np.mean([self.out[1],self.inner[1]])
+        e = y_0 - self.pupil[1] 
+        return e - 5
         
     
     def horizontal(self):
-        x_0 = np.mean([self.out[0],self.inner[0]])
-        e = x_0 - self.pupil[0] + 1.5
-        return e
+        x_0 = np.mean([self.up[0],self.down[0]])
+        e = x_0 - self.pupil[0] 
+        return e 
 
 
     def blink(self): 
