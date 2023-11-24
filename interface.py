@@ -5,11 +5,13 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout,
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QPixmap, QPainter
 from PyQt5.QtWidgets import QLabel
+from gaze_tracking import GazeTracking
 
 class GazeInterface(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initUI()
+        self.gaze = GazeTracking()
 
     def initUI(self):
         self.setWindowTitle('Gaze Interface')
@@ -54,26 +56,24 @@ class GazeInterface(QMainWindow):
         self.timer.timeout.connect(self.update_gaze)
         self.timer.start(50)  # Mettez à jour toutes les 50 millisecondes (ajustez si nécessaire)
     def update_gaze(self):
+        # Capturez une nouvelle frame depuis la webcam
         ret, frame = self.cap.read()
+        
         if ret:
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            
-            # Chargez le classificateur en cascade pour les yeux
-            eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
+            # Actualisez la détection du regard avec la nouvelle frame
+            self.gaze.refresh(frame)
 
-            # Détectez les yeux dans l'image
-            eyes = eye_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
+            # Obtenez les coordonnées des pupilles gauche et droite
+            left_pupil = self.gaze.pupil_left_coords()
+            right_pupil = self.gaze.pupil_right_coords()
 
-            if len(eyes) > 0:
-                # Prenez le premier œil détecté
-                x, y, w, h = eyes[0]
-
-                # Calculez la position du pointeur en fonction de l'emplacement de l'œil
-                gaze_x = x + w // 2
-                gaze_y = y + h // 2
+            # Mettez à jour la position du pointeur sur l'interface en utilisant les coordonnées des pupilles
+            if left_pupil is not None and right_pupil is not None:
+                gaze_x = (left_pupil[0] + right_pupil[0]) / 2
+                gaze_y = (left_pupil[1] + right_pupil[1]) / 2
 
                 # Mettez à jour la position du pointeur sur l'interface
-                self.pointer_label.move(gaze_x, gaze_y)
+                self.pointer_label.move(int(gaze_x), int(gaze_y))
 
     def closeEvent(self, event):
         self.cap.release()  # Libérez la webcam lorsque l'application est fermée
