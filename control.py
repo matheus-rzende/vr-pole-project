@@ -14,10 +14,6 @@ mp_face_mesh = mp.solutions.face_mesh
 screen_w, screen_h = pyautogui.size()
 
 lista1 = list()
-lista2 = list()
-lista3 = list()
-lista4 = list()
-lista5 = list()
 
 cum_ex = 0
 cum_ey = 0
@@ -30,9 +26,17 @@ previous_ey = 0
 left_eye = eye()
 right_eye = eye()
 
-n = 1.8
+Kx = 6/320
+Kpx = 16
+Kdx = -1
+Kix = 0
 
-point = [640/2,480/2/n]
+Ky = 0#-0.01
+Kpy = 0#-10
+Kdy = 0
+Kiy = 0
+
+point = [640/2,480/2]
 
 #################################
 ### Face Mesh from Media Pipe ###
@@ -87,16 +91,6 @@ with mp_face_mesh.FaceMesh(
     mean_x = np.mean([right_eye.horizontal(),left_eye.horizontal()]) - 0.2
     mean_y = np.mean([right_eye.vertical(),left_eye.vertical()])
 
-    Kx = 6/320
-    Kpx = 16
-    Kdx = -1
-    Kix = 0
-
-    Ky = -0.01
-    Kpy = -10
-    Kdy = 0
-    Kiy = 0
-
     point_x = (point[0]-320)*Kx
     point_y = (point[1]-240)*Ky
 
@@ -109,7 +103,7 @@ with mp_face_mesh.FaceMesh(
     rate_ey = (e_y - previous_ey)/t
 
     point[0] += Kpx*e_x + Kdx*rate_ex + Kix*cum_ex
-    point[1] += (Kpy*e_y + Kdy*rate_ey + Kiy*cum_ey)
+    point[1] += Kpy*e_y + Kdy*rate_ey + Kiy*cum_ey
 
     if point_x <= -320:
       point_x = -320
@@ -128,7 +122,7 @@ with mp_face_mesh.FaceMesh(
     if point[1] >= height:
       point[1] = height
 
-    pyautogui.moveTo(screen_w / width * point[0],screen_h / height * point[1]*n)
+    pyautogui.moveTo(screen_w / width * point[0],screen_h / height * point[1])
       
     #################################
     # Don't edit
