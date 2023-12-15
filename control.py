@@ -7,44 +7,41 @@ import sys
 import matplotlib.pyplot as plt
 import time
 
+# Recommended distance 30 cm
+
+# Initializing Face Mesh
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_face_mesh = mp.solutions.face_mesh
 
-screen_w, screen_h = pyautogui.size()
+screen_w, screen_h = pyautogui.size() # Size of whole screen
 
-lista1 = list()
-
+# Error for control
 cum_ex = 0
-cum_ey = 0
 previous_time = time.time()
 previous_ex = 0
-previous_ey = 0
 
-# Edit from here #
-
+# Initializing eye class, for each eye
 left_eye = eye()
 right_eye = eye()
 
-Kx = 6/320
-Kpx = 16
-Kdx = -1
-Kix = 0
-
-Ky = 0#-0.01
-Kpy = 0#-10
-Kdy = 0
-Kiy = 0
-
-point = [640/2,480/2]
-
-#################################
-### Face Mesh from Media Pipe ###
-#################################
-# Don't change
-
+# Opening camera and applying the Face Mesh
 drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
 cap = cv2.VideoCapture(0)
+
+height, width = int(cap.get(4)), int(cap.get(3)) # Size of image
+
+# Initial position of pointer
+point = [width/2,height/2]
+
+# Control constants
+Kx = 8/(width/2)
+Kpx = 16 
+Kdx = -0.25 
+Kix = 0 
+
+f = 0
+
 with mp_face_mesh.FaceMesh(
     max_num_faces=1,
     refine_landmarks=True,
@@ -52,28 +49,26 @@ with mp_face_mesh.FaceMesh(
     min_tracking_confidence=0.5) as face_mesh:
   while cap.isOpened():
     success, image = cap.read()
-    if not success:
-      print("Ignoring empty camera frame.")
-      continue
 
+    # Create image with landmarcks
     image.flags.writeable = False
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     results = face_mesh.process(image)
 
+    # Size of image (different than screen)
     height, width, _ = image.shape
 
-    # Draw the face mesh annotations on the image.
+    # Draw the face mesh annotations on the image
     image.flags.writeable = True
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     if results.multi_face_landmarks:
       for face_landmarks in results.multi_face_landmarks:
             pass
       
-  #################################
-  # Edit frome here #
-
+    # Time for control
     current_time = time.time()
         
+    #Right and left eye landmarks
     right_eye.out = [int(face_landmarks.landmark[33].x*width),int(face_landmarks.landmark[33].y*height)]
     right_eye.inner = [int(face_landmarks.landmark[133].x*width),int(face_landmarks.landmark[133].y*height)]
     right_eye.up = [int(face_landmarks.landmark[159].x*width),int(face_landmarks.landmark[159].y*height)]
@@ -86,33 +81,26 @@ with mp_face_mesh.FaceMesh(
     left_eye.down = [int(face_landmarks.landmark[374].x*width),int(face_landmarks.landmark[374].y*height)]
     left_eye.pupil = [int(face_landmarks.landmark[473].x*width),int(face_landmarks.landmark[473].y*height)]
 
+    # Delta time for control
     t = current_time - previous_time
 
-    mean_x = np.mean([right_eye.horizontal(),left_eye.horizontal()]) - 0.2
-    mean_y = np.mean([right_eye.vertical(),left_eye.vertical()])
+    # Varibales to normalize positions
+    mean_x = np.mean([right_eye.horizontal(),left_eye.horizontal()]) 
+    point_x = (point[0]-width/2)*Kx
 
-    point_x = (point[0]-320)*Kx
-    point_y = (point[1]-240)*Ky
-
+    # Errors
     e_x = mean_x - point_x
-    e_y = mean_y - point[1] * Ky
-
     cum_ex += e_x * t
     rate_ex = (e_x - previous_ex)/t
-    cum_ey += e_y * t
-    rate_ey = (e_y - previous_ey)/t
 
+    # PID Control
     point[0] += Kpx*e_x + Kdx*rate_ex + Kix*cum_ex
-    point[1] += Kpy*e_y + Kdy*rate_ey + Kiy*cum_ey
 
-    if point_x <= -320:
-      point_x = -320
-    if point_x >= 320:
-      point_x = 320
-    if point_y <= -240:
-      point_y = -240
-    if point_y >= 240:
-      point_y = 240
+    # Limits to pointer position
+    if point_x <= -width/2:
+      point_x = -width/2
+    if point_x >= width/2:
+      point_x = width/2
     if point[0] <= 0:
       point[0] = 0
     if point[0] >= width:
@@ -122,24 +110,19 @@ with mp_face_mesh.FaceMesh(
     if point[1] >= height:
       point[1] = height
 
-    pyautogui.moveTo(screen_w / width * point[0],screen_h / height * point[1])
-      
-    #################################
-    # Don't edit
-    cv2.imshow('Face',cv2.flip(image, 1))
+    # Define pointer as the mouse
+    pyautogui.moveTo(screen_w / width * point[0], screen_h / height * point[1])
 
+    # If blink with bothe yes then click
+    if left_eye.blink() == True and right_eye.blink() == True:
+      pyautogui.click()
+
+    # Necessary for camera opening
     if cv2.waitKey(5) & 0xFF == 27:
       break
 
-    if cv2.getWindowProperty('Face', cv2.WND_PROP_VISIBLE) <1:
-      break
-
-    k = cv2.waitKey(33)
-    if k==27:    
-        break
-
+    # Tracking previous step for control
     previous_ex = e_x
-    previous_ey = e_y
     previous_time = current_time
     
 cap.release()
