@@ -25,6 +25,9 @@ previous_ex = 0
 left_eye = eye()
 right_eye = eye()
 
+list1= list()
+list2 = list()
+
 # Opening camera and applying the Face Mesh
 drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
 cap = cv2.VideoCapture(0)
@@ -35,12 +38,14 @@ height, width = int(cap.get(4)), int(cap.get(3)) # Size of image
 point = [width/2,height/2]
 
 # Control constants
-Kx = 8/(width/2)
-Kpx = 16 
-Kdx = -0.25 
-Kix = 0 
+Kx = 5.5/320
+Kpx = 8
+Kdx = 0
+Kix = 0
 
 f = 0
+
+mean_x_1 = 0
 
 with mp_face_mesh.FaceMesh(
     max_num_faces=1,
@@ -81,48 +86,64 @@ with mp_face_mesh.FaceMesh(
     left_eye.down = [int(face_landmarks.landmark[374].x*width),int(face_landmarks.landmark[374].y*height)]
     left_eye.pupil = [int(face_landmarks.landmark[473].x*width),int(face_landmarks.landmark[473].y*height)]
 
-    # Delta time for control
-    t = current_time - previous_time
-
-    # Varibales to normalize positions
-    mean_x = np.mean([right_eye.horizontal(),left_eye.horizontal()]) 
-    point_x = (point[0]-width/2)*Kx
-
-    # Errors
-    e_x = mean_x - point_x
-    cum_ex += e_x * t
-    rate_ex = (e_x - previous_ex)/t
-
-    # PID Control
-    point[0] += Kpx*e_x + Kdx*rate_ex + Kix*cum_ex
-
-    # Limits to pointer position
-    if point_x <= -width/2:
-      point_x = -width/2
-    if point_x >= width/2:
-      point_x = width/2
-    if point[0] <= 0:
-      point[0] = 0
-    if point[0] >= width:
-      point[0] = width
-    if point[1] <= 0:
-      point[1] = 0
-    if point[1] >= height:
-      point[1] = height
-
-    # Define pointer as the mouse
-    pyautogui.moveTo(screen_w / width * point[0], screen_h / height * point[1])
-
     # If blink with bothe yes then click
     if left_eye.blink() == True and right_eye.blink() == True:
       pyautogui.click()
+    else:
+      # Delta time for control
+      t = current_time - previous_time
+
+      # Variables to normalize positions
+      mean_x = np.mean([right_eye.horizontal(),left_eye.horizontal()])
+      point_x = (point[0]-width/2)*Kx
+      print(point_x, mean_x)
+      if abs(mean_x-mean_x_1) < 1:
+        mean_x = mean_x_1
+
+      # Errors
+      e_x = mean_x - point_x
+      cum_ex += e_x * t
+      rate_ex = (e_x - previous_ex)/t
+
+      # PID Control
+      point[0] += Kpx*e_x + Kdx*rate_ex + Kix*cum_ex
+
+      mean_x_1 = mean_x
+
+      # Limits to pointer position
+      if point_x <= -width/2:
+        point_x = -width/2
+      if point_x >= width/2:
+        point_x = width/2
+      if point[0] <= 0:
+        point[0] = 0
+      if point[0] >= width:
+        point[0] = width
+      if point[1] <= 0:
+        point[1] = 0
+      if point[1] >= height:
+        point[1] = height
+
+      # Define pointer as the mouse
+      pyautogui.moveTo(screen_w / width * point[0], screen_h / height * point[1])
+
+      # Tracking previous step for control
+      previous_ex = e_x
+      previous_time = current_time
+      list1.append(mean_x)
+      list2.append(point_x)
 
     # Necessary for camera opening
     if cv2.waitKey(5) & 0xFF == 27:
       break
 
-    # Tracking previous step for control
-    previous_ex = e_x
-    previous_time = current_time
+    if len(list1) == 100:
+      break
     
 cap.release()
+
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots(1,1,figsize=(12, 12))
+ax.plot(np.arange(len(list1)),list1, color='r', label='Mean')
+ax.plot(np.arange(len(list2)),list2, color='b', label='Point')
+plt.show()

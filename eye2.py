@@ -26,13 +26,15 @@ class eye(object):
         e = x_0 - self.pupil[0] 
         return e 
 
-
     def blink(self): 
-        pass
-
+        tolerance = 0.3
+        max_distance = distance(self.out,self.inner)
+        if distance(self.up,self.down) <= tolerance*max_distance and self.blinked == False:
+            self.blinked = True
+            return True
+        else:
+            self.blinked = False
+            return False
 
 def distance(a,b):
-    return np.sqrt((b[0]-a[0])**2+(b[1]-a[1])**2)
-
-
-      
+    return np.sqrt((b[0]-a[0])**2+(b[1]-a[1])**2)     
