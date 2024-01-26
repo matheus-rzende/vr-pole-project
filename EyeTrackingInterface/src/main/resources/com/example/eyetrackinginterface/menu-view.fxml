@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1280.0" style="-fx-background-color: #EFEDEA;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.eyetrackinginterface.HelloController">
+    <children>
+
+
+        <AnchorPane prefHeight="39.0" prefWidth="1280.0" style="-fx-background-color: #0b5382;">
+            <children>
+                <Button fx:id="closeButton" layoutX="1233.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="26.0" prefWidth="38.0" style="-fx-background-color: #05263b; -fx-border-color: #000000;" text="X" textFill="WHITE" />
+            </children></AnchorPane>
+      <Button layoutX="805.0" layoutY="170.0" mnemonicParsing="false" prefHeight="167.0" prefWidth="167.0" style="-fx-background-color: #d9ecff; -fx-border-color: #000000;" text="WC">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+      <Button layoutX="24.0" layoutY="170.0" mnemonicParsing="false" prefHeight="167.0" prefWidth="167.0" style="-fx-background-color: #d9ecff; -fx-border-color: #000000;" text="Demandes">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+      <Button layoutX="277.0" layoutY="170.0" mnemonicParsing="false" prefHeight="167.0" prefWidth="167.0" style="-fx-background-color: #d9ecff; -fx-border-color: #000000;" text="Emotions">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+      <Label fx:id="mainLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="422.0" layoutY="65.0" prefHeight="39.0" prefWidth="436.0" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button layoutX="1077.0" layoutY="170.0" mnemonicParsing="false" onAction="#clavierButtonOnAction" prefHeight="167.0" prefWidth="167.0" style="-fx-background-color: #d9ecff; -fx-border-color: #000000;" text="Clavier">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button layoutX="530.0" layoutY="170.0" mnemonicParsing="false" prefHeight="167.0" prefWidth="198.0" style="-fx-background-color: #679bcc; -fx-border-color: #000000;" text="Urgence">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Label layoutX="37.0" layoutY="396.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="74.0" layoutY="507.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="148.0" layoutY="438.0" prefHeight="23.0" prefWidth="13.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="289.0" layoutY="396.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="325.0" layoutY="507.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="539.0" layoutY="397.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="576.0" layoutY="508.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="650.0" layoutY="439.0" prefHeight="23.0" prefWidth="13.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="136.0" prefHeight="23.0" prefWidth="167.0" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="277.0" layoutY="136.0" prefHeight="23.0" prefWidth="167.0" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+    </children>
+
+</AnchorPane>

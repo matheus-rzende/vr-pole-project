@@ -27,9 +27,9 @@ class eye(object):
         return e 
 
     def blink(self): 
-        tolerance = 0.3
+        tolerance = 0.2
         max_distance = distance(self.out,self.inner)
-        if distance(self.up,self.down) <= tolerance*max_distance and self.blinked == False:
+        if distance(self.up,self.down) <= tolerance*max_distance:
             self.blinked = True
             return True
         else:

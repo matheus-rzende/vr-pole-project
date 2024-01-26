@@ -38,12 +38,10 @@ height, width = int(cap.get(4)), int(cap.get(3)) # Size of image
 point = [width/2,height/2]
 
 # Control constants
-Kx = 5.5/320
-Kpx = 8
+Kx = 5.5/(width/2)
+Kpx = 12
 Kdx = 0
 Kix = 0
-
-f = 0
 
 mean_x_1 = 0
 
@@ -96,9 +94,10 @@ with mp_face_mesh.FaceMesh(
       # Variables to normalize positions
       mean_x = np.mean([right_eye.horizontal(),left_eye.horizontal()])
       point_x = (point[0]-width/2)*Kx
-      print(point_x, mean_x)
       if abs(mean_x-mean_x_1) < 1:
-        mean_x = mean_x_1
+        mean_x = mean_x_1    
+      #if abs(mean_x-mean_x_1) > 4:
+       # mean_x = mean_x_1
 
       # Errors
       e_x = mean_x - point_x
@@ -130,15 +129,30 @@ with mp_face_mesh.FaceMesh(
       # Tracking previous step for control
       previous_ex = e_x
       previous_time = current_time
-      list1.append(mean_x)
-      list2.append(point_x)
+      #list1.append(mean_x)
+      #list2.append(point_x)
 
     # Necessary for camera opening
     if cv2.waitKey(5) & 0xFF == 27:
       break
 
-    if len(list1) == 100:
-      break
+    #if len(list1) == 100:
+    #  break
+
+    cv2.circle(image, (right_eye.out[0],right_eye.out[1]), 2, (0, 0, 255), -1)
+    cv2.circle(image, (right_eye.inner[0],right_eye.inner[1]), 2, (0, 0, 255), -1)
+    cv2.circle(image, (right_eye.up[0],right_eye.up[1]), 2, (0, 0, 255), -1)
+    cv2.circle(image, (right_eye.down[0],right_eye.down[1]), 2, (0, 0, 255), -1)
+    cv2.circle(image, (right_eye.pupil[0],right_eye.pupil[1]), 2, (0, 0, 255), -1)
+
+    cv2.circle(image, (left_eye.out[0],left_eye.out[1]), 2, (0, 255, 0), -1)
+    cv2.circle(image, (left_eye.inner[0],left_eye.inner[1]), 2, (0, 255, 0), -1)
+    cv2.circle(image, (left_eye.up[0],left_eye.up[1]), 2, (0, 255, 0), -1)
+    cv2.circle(image, (left_eye.down[0],left_eye.down[1]), 2, (0, 255, 0), -1)
+    cv2.circle(image, (left_eye.pupil[0],left_eye.pupil[1]), 2, (0, 255, 0), -1) 
+
+    cv2.imshow('Face',cv2.flip(image, 1))
+
     
 cap.release()
 

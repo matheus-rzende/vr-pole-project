@@ -77,6 +77,18 @@ with mp_face_mesh.FaceMesh(
     left_eye.down = [int(face_landmarks.landmark[374].x*width),int(face_landmarks.landmark[374].y*height)]
     left_eye.center = [int(face_landmarks.landmark[473].x*width),int(face_landmarks.landmark[473].y*height)]
 
+    cv2.circle(image, (right_eye.out[0],right_eye.out[1]), 2, (0, 0, 255), -1)
+  cv2.circle(image, (right_eye.inner[0],right_eye.inner[1]), 2, (0, 0, 255), -1)
+  cv2.circle(image, (right_eye.up[0],right_eye.up[1]), 2, (0, 0, 255), -1)
+  cv2.circle(image, (right_eye.down[0],right_eye.down[1]), 2, (0, 0, 255), -1)
+  cv2.circle(image, (right_eye.center[0],right_eye.center[1]), 2, (0, 0, 255), -1)
+
+  cv2.circle(image, (left_eye.out[0],left_eye.out[1]), 2, (0, 255, 0), -1)
+  cv2.circle(image, (left_eye.inner[0],left_eye.inner[1]), 2, (0, 255, 0), -1)
+  cv2.circle(image, (left_eye.up[0],left_eye.up[1]), 2, (0, 255, 0), -1)
+  cv2.circle(image, (left_eye.down[0],left_eye.down[1]), 2, (0, 255, 0), -1)
+  cv2.circle(image, (left_eye.center[0],left_eye.center[1]), 2, (0, 255, 0), -1) 
+
     step = 24
 
     if right_eye.horizontal() == right_eye.out and left_eye.horizontal() == left_eye.inner:
@@ -109,7 +121,7 @@ with mp_face_mesh.FaceMesh(
       
     #################################
     # Don't edit
-    cv2.imshow('Face',cv2.flip(image2, 1))
+    cv2.imshow('Face',cv2.flip(image, 1))
 
     if cv2.waitKey(5) & 0xFF == 27:
       break

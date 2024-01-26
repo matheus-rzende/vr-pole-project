@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: #EFEDEA;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.eyetrackinginterface.HelloController">
+    <children>
+
+
+        <AnchorPane prefHeight="39.0" prefWidth="1280.0" style="-fx-background-color: #0b5382;">
+            <children>
+                <Button fx:id="closeButton" layoutX="1233.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="26.0" prefWidth="38.0" style="-fx-background-color: #05263b; -fx-border-color: #000000;" text="X" textFill="WHITE" />
+            </children></AnchorPane>
+      <Button fx:id="thirdButton" layoutX="531.0" layoutY="170.0" mnemonicParsing="false" onAction="#firstCButtonOnAction" prefHeight="167.0" prefWidth="167.0" style="-fx-background-color: #d9ecff; -fx-border-color: #000000;" text="C">
+         <font>
+            <Font size="48.0" />
+         </font></Button>
+      <Button fx:id="firstButton" layoutX="24.0" layoutY="170.0" mnemonicParsing="false" onAction="#firstAButtonOnAction" prefHeight="167.0" prefWidth="167.0" style="-fx-background-color: #d9ecff; -fx-border-color: #000000;" text="A">
+         <font>
+            <Font size="48.0" />
+         </font></Button>
+      <Button fx:id="secondButton" layoutX="277.0" layoutY="170.0" mnemonicParsing="false" onAction="#firstBButtonOnAction" prefHeight="167.0" prefWidth="167.0" style="-fx-background-color: #d9ecff; -fx-border-color: #000000;" text="B">
+         <font>
+            <Font size="48.0" />
+         </font></Button>
+      <Label fx:id="mainLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="422.0" layoutY="65.0" prefHeight="39.0" prefWidth="436.0" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="spaceButton" layoutX="923.0" layoutY="170.0" mnemonicParsing="false" onAction="#spaceButtonOnAction" prefHeight="167.0" prefWidth="139.0" style="-fx-background-color: #679bcc; -fx-border-color: #000000;">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Button>
+      <Button fx:id="deleteButton" layoutX="738.0" layoutY="170.0" mnemonicParsing="false" onAction="#deleteButtonOnAction" prefHeight="167.0" prefWidth="147.0" style="-fx-background-color: #679bcc; -fx-border-color: #000000;" text="Del">
+         <font>
+            <Font size="44.0" />
+         </font>
+      </Button>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#81c2ff" height="59.0" layoutX="14.0" layoutY="378.0" stroke="BLACK" strokeType="INSIDE" width="59.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#81c2ff" height="59.0" layoutX="50.0" layoutY="489.0" stroke="BLACK" strokeType="INSIDE" width="59.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#81c2ff" height="59.0" layoutX="125.0" layoutY="420.0" stroke="BLACK" strokeType="INSIDE" width="59.0" />
+      <Line endX="-71.5" endY="59.0" layoutX="226.0" layoutY="361.0" startX="-112.0" startY="-24.0" />
+      <Line endX="-156.5" endY="118.0" layoutX="236.0" layoutY="371.0" startX="-122.70710754394531" startY="-34.70709228515625" />
+      <Line endX="-299.5" endY="-89.0" layoutX="343.0" layoutY="467.0" startX="-229.7071075439453" startY="-130.70709228515625" />
+      <Label layoutX="37.0" layoutY="396.0" text="D">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="74.0" layoutY="507.0" text="E">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="148.0" layoutY="438.0" prefHeight="23.0" prefWidth="13.0" text="F">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#81c2ff" height="59.0" layoutX="266.0" layoutY="378.0" stroke="BLACK" strokeType="INSIDE" width="59.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#81c2ff" height="59.0" layoutX="375.0" layoutY="409.0" stroke="BLACK" strokeType="INSIDE" width="59.0" />
+      <Line endX="-51.5" endY="47.0" layoutX="478.0" layoutY="361.0" startX="-112.0" startY="-24.0" />
+      <Line endX="-156.5" endY="118.0" layoutX="488.0" layoutY="371.0" startX="-122.70710754394531" startY="-34.70709228515625" />
+      <Line endX="-299.5" endY="-89.0" layoutX="595.0" layoutY="467.0" startX="-229.7071075439453" startY="-130.70709228515625" />
+      <Label layoutX="289.0" layoutY="396.0" text="G">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="398.0" layoutY="427.0" prefHeight="23.0" prefWidth="13.0" text="I">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#81c2ff" height="59.0" layoutX="301.0" layoutY="489.0" stroke="BLACK" strokeType="INSIDE" width="59.0" />
+      <Label layoutX="325.0" layoutY="507.0" text="H">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#81c2ff" height="59.0" layoutX="516.0" layoutY="379.0" stroke="BLACK" strokeType="INSIDE" width="59.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#81c2ff" height="59.0" layoutX="552.0" layoutY="490.0" stroke="BLACK" strokeType="INSIDE" width="59.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#81c2ff" height="59.0" layoutX="627.0" layoutY="421.0" stroke="BLACK" strokeType="INSIDE" width="59.0" />
+      <Line endX="-71.5" endY="59.0" layoutX="728.0" layoutY="362.0" startX="-112.0" startY="-24.0" />
+      <Line endX="-156.5" endY="118.0" layoutX="738.0" layoutY="372.0" startX="-122.70710754394531" startY="-34.70709228515625" />
+      <Line endX="-299.5" endY="-89.0" layoutX="845.0" layoutY="468.0" startX="-229.7071075439453" startY="-130.70709228515625" />
+      <Label layoutX="539.0" layoutY="397.0" text="J">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="576.0" layoutY="508.0" text="K">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="650.0" layoutY="439.0" prefHeight="23.0" prefWidth="13.0" text="L">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="menuButton" layoutX="1099.0" layoutY="170.0" mnemonicParsing="false" onAction="#menuButtonOnAction" prefHeight="167.0" prefWidth="167.0" style="-fx-background-color: #679bcc; -fx-border-color: #000000;" text="Menu">
+         <font>
+            <Font size="44.0" />
+         </font>
+      </Button>
+    </children>
+
+</AnchorPane>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="1280.0" style="-fx-background-color: #EFEDEA;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.eyetrackinginterface.AController">
+    <children>
+
+
+        <AnchorPane prefHeight="39.0" prefWidth="1280.0" style="-fx-background-color: #0b5382;">
+            <children>
+                <Button fx:id="closeButton" layoutX="1233.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="26.0" prefWidth="38.0" style="-fx-background-color: #05263b; -fx-border-color: #000000;" text="X" textFill="WHITE" />
+            </children></AnchorPane>
+      <Button fx:id="thirdButton" layoutX="572.0" layoutY="170.0" mnemonicParsing="false" onAction="#firstFButtonOnAction" prefHeight="167.0" prefWidth="120.0" style="-fx-background-color: #d9ecff; -fx-border-color: #000000;" text="F">
+         <font>
+            <Font size="48.0" />
+         </font></Button>
+      <Button fx:id="firstButton" layoutX="37.0" layoutY="170.0" mnemonicParsing="false" onAction="#secondAButtonOnAction" prefHeight="167.0" prefWidth="120.0" style="-fx-background-color: #679bcc; -fx-border-color: #000000;" text="A">
+         <font>
+            <Font size="48.0" />
+         </font></Button>
+      <Button fx:id="secondButton" layoutX="395.0" layoutY="170.0" mnemonicParsing="false" onAction="#firstEButtonOnAction" prefHeight="167.0" prefWidth="120.0" style="-fx-background-color: #d9ecff; -fx-border-color: #000000;" text="E">
+         <font>
+            <Font size="48.0" />
+         </font></Button>
+      <Label fx:id="mainLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="422.0" layoutY="65.0" prefHeight="39.0" prefWidth="436.0" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="spaceButton" layoutX="938.0" layoutY="170.0" mnemonicParsing="false" onAction="#spaceButtonOnAction" prefHeight="167.0" prefWidth="127.0" style="-fx-background-color: #679bcc; -fx-border-color: #000000;">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Button>
+      <Button fx:id="deleteButton" layoutX="1110.0" layoutY="170.0" mnemonicParsing="false" onAction="#deleteButtonOnAction" prefHeight="167.0" prefWidth="135.0" style="-fx-background-color: #679bcc; -fx-border-color: #000000;" text="Del">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Button>
+      <Button fx:id="backButton" layoutX="728.0" layoutY="170.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="167.0" prefWidth="174.0" style="-fx-background-color: #679bcc; -fx-border-color: #000000;" text="Back">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Button>
+      <Button fx:id="secondButton" layoutX="220.0" layoutY="170.0" mnemonicParsing="false" onAction="#firstDButtonOnAction" prefHeight="167.0" prefWidth="120.0" style="-fx-background-color: #d9ecff; -fx-border-color: #000000;" text="D">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Button>
+    </children>
+
+</AnchorPane>
